@@ -3,37 +3,7 @@
 > **AIONOS Agentic AI Factory · Assignment 1**  
 > A professional, evidence-grounded executive copilot that converts fragmented meetings, emails, calendars and voice notes into a clear daily action brief.
 
-**Live Demo:** `ADD_YOUR_RENDER_URL_HERE`
-
-> AI Q&A uses the Gemini API through the FastAPI backend. The API key is stored only as a server-side environment variable and is never exposed to React or committed to GitHub.  
-**Demo Video:** `ADD_YOUR_GOOGLE_DRIVE_URL_HERE`
-
-## Why this solution
-
-Executive commitments change across channels. ExecPilot does more than summarize: it resolves the latest explicit commitment, separates the executive's actions from items waiting on others, detects deadlines and completion, deduplicates repeated actions, and deliberately leaves ownership unresolved when the evidence is ambiguous.
-
-### Key capabilities
-
-- **Daily Action Brief** — priority view of what needs attention.
-- **Commitment Tracking** — follows changing commitments across sources.
-- **My Actions vs Waiting** — distinguishes Arjun's work from dependencies.
-- **Deadline Intelligence** — identifies due, overdue and completed items.
-- **Cross-source Deduplication** — one action, even when mentioned repeatedly.
-- **Uncertainty Guardrail** — flags unclear ownership instead of hallucinating.
-- **Grounded Q&A** — answers questions with the evidence sources used.
-- **Evidence Timeline** — click any action to inspect how the conclusion was reached.
-
-## Reviewer demo path
-
-Try these questions in **Ask ExecPilot**:
-
-```text
-What did I promise Raghav?
-What needs action today?
-Who owns the Mumbai lease?
-```
-
-The third question demonstrates an important safety behavior: the agent does **not** assign the Mumbai lease to Facilities because the supplied evidence never confirms that ownership.
+**Live Demo:** https://execpilotai-1.onrender.com
 
 ## Architecture
 
@@ -71,16 +41,6 @@ Voice Notes ─────────┘           │
 
 ## Run locally
 
-### Render — recommended
-
-```bash
-uvicorn backend.main:app --reload
-```
-
-Open `http://localhost:8000`.
-
-### Development mode
-
 Backend:
 
 ```bash
@@ -101,7 +61,7 @@ Open `http://localhost:5173`.
 
 ## Gemini API setup
 
-Create a Gemini API key in Google AI Studio. **Do not put the real key in React, source code, `.env.example`, or GitHub.**
+Create a Gemini API key in Google AI Studio. 
 
 For local development on Windows PowerShell:
 
@@ -118,16 +78,6 @@ GEMINI_MODEL   = gemini-2.5-flash
 ```
 
 The React browser never receives the secret. React calls `/api/chat`; FastAPI reads the environment variable and calls Gemini server-side. If Gemini is unavailable, the backend returns a grounded deterministic fallback so the demo still works.
-
-## Deploy to Render
-
-1. Push this repository to GitHub.
-2. In Render choose **New → Web Service** and connect the repository.
-3. Render detects the included `render.yaml` / Renderfile configuration.
-4. Deploy the service.
-5. Copy the public Render URL and replace `ADD_YOUR_RENDER_URL_HERE` at the top of this README.
-
-The Render image builds React first, then packages the production `dist` files with FastAPI. The deployed application therefore uses **one public URL** for both the React UI and `/api/*` endpoints.
 
 ## API endpoints
 
@@ -158,56 +108,8 @@ AI assistance was used for solution architecture, implementation support, UI ref
 
 Enterprise connectors for Gmail/Calendar/Teams, structured LLM extraction, persistent source lineage, confidence scoring, role-based access, audit logs, notifications, and human approval before any outbound action.
 
----
-
 **Candidate:** Nitin Sharma  
-**Assignment:** AIONOS — Executive Productivity Agent
-
-
----
-
-## Deploy on Render — No Docker
-
-This repository is configured for a native Render Web Service. Docker is not used.
-
-### Render settings
-
-- **Runtime:** Python
-- **Build command:** `cd frontend && npm install && npm run build && cd .. && pip install -r requirements.txt`
-- **Start command:** `uvicorn backend.main:app --host 0.0.0.0 --port $PORT`
-
-### Environment variables
-
-Add these in **Render → Service → Environment**:
-
-```text
-GEMINI_API_KEY=your_actual_gemini_api_key
-GEMINI_MODEL=gemini-2.5-flash
-```
-
-Never commit the real `GEMINI_API_KEY` to GitHub.
-
-### Local development
-
-Backend:
-
-```bash
-python -m venv venv
-# Windows
-venv\Scripts\activate
-pip install -r requirements.txt
-uvicorn backend.main:app --reload
-```
-
-Frontend (second terminal):
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-The React development server normally runs at `http://localhost:5173` and FastAPI at `http://localhost:8000`.
+**Assignment:** AIONOS — Executive Productivity Agent\
 
 ### Production architecture
 
